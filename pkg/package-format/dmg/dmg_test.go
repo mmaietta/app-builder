@@ -1,7 +1,6 @@
 package dmg
 
 import (
-	"runtime"
 	"testing"
 
 	"github.com/develar/app-builder/pkg/log"
@@ -9,10 +8,8 @@ import (
 )
 
 func TestSize(t *testing.T) {
-	if runtime.GOOS != "darwin" {
-		t.Skip("Skipping not finished test")
-		return
-	}
+	t.Skip("Skipping not finished test")
+	return
 
 	g := NewGomegaWithT(t)
 

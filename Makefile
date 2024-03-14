@@ -16,6 +16,8 @@ else
 	ifeq ($(UNAME_S),Linux)
 		ifeq ($(UNAME_M),riscv64)
 			OS_ARCH := linux_riscv64
+		else ifeq ($(UNAME_M),loongarch64)
+			OS_ARCH := linux_loong64
 		else
 			OS_ARCH := linux_amd64
 		endif
@@ -38,6 +40,9 @@ lint:
 	golangci-lint run
 
 test:
+	cd pkg/node-modules/pnpm-demo/ && pnpm install
+	cd pkg/node-modules/npm-demo/ && npm install
+	cd pkg/node-modules/yarn-demo/ && yarn install
 	go test -v ./pkg/...
 
 assets:
@@ -45,9 +50,7 @@ assets:
 	~/go/bin/go-bindata -o ./pkg/package-format/snap/snapScripts.go -pkg snap -prefix ./pkg/package-format/snap ./pkg/package-format/snap/desktop-scripts
 
 publish:
-	#make lint
-	ln -f readme.md app-builder-bin/readme.md
-	pnpm publish app-builder-bin
+	pnpm publish
 
 update-deps:
 	go get -u -d
